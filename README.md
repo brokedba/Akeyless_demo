@@ -53,5 +53,5 @@ Access Roles Allow to grant permissions on Secrets & Encryption Keys, Targets, A
 - **Tokenizer**(anonymization):  allows data sanitization, such as social security, PII ([credit card numbers](https://support.bluesnap.com/docs/test-credit-card-numbers) etc) while preserving data format and uniqueness, and allow for data decryption later on. i.e "374245455400126"
       
 - **Universal Secrets Connectors**:
- Previously called ESM - USC Allows to manage the life cycle of secrets within external secret/vaul platforms Such as Kubernetes secrets, Azure KV, AWS-SM, GCP etc. It's also Bidirectional.
+ (Previously ESM) - USC Allows to manage the life cycle of secrets within external secret/vaul platforms Such as Kubernetes secrets, Azure KV, AWS-SM, GCP etc. It's also Bidirectional.
 > <img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/4f5760e3-2db3-49a1-bcad-4b09cb3c228d" width="700" height="400" />
