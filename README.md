@@ -47,11 +47,10 @@ Access Roles Allow to grant permissions on Secrets & Encryption Keys, Targets, A
 - **Encryption Keys**: AES, RSA, or EC keys used for encrypting data and signing binaries or application transactions. See Encryption Keys
 - **Certificates**: Akeyless acts as a Certificate Authority, supporting PKI/TLS Certificates and SSH certificates for internal environments.
    for example PKI or ssh certificates issuers alow to connect to remote servers using a CA signed ephemeral ssh cert eliminating the need for public keys in the servers.
-- **Targets**: Are Connectors that link stored credentials to the systems and applications that need them, ensuring seamless integration/protection from credential breakage.
-   Seamlessly connect Akeyless with external systems, databases, and applications. alowing for dynamic secret creations, with granular permissions.
+- **Targets**: Are Connectors that link stored credentials to the systems and applications that need them. It seamlessly connects Akeyless with external systems, databases, and applications. alowing for dynamic secret creations, with granular permissions.
 
 - **OIDC app**: alows to create the establish trust between the app and Akeyless for future access token exchange 
-- **tokenizer**(anonymization):  allows data sanitization, such as social security, PII (credit card numbers etc) while preserving data format and uniqueness, and allow for data decryption later on.
+- **Tokenizer**(anonymization):  allows data sanitization, such as social security, PII ([credit card numbers](https://support.bluesnap.com/docs/test-credit-card-numbers) etc) while preserving data format and uniqueness, and allow for data decryption later on. i.e "374245455400126"
       
 - **Universal Secrets Connectors**:
  Previously called ESM - USC Allows to manage the life cycle of secrets within external secret/vaul platforms Such as Kubernetes secrets, Azure KV, AWS-SM, GCP etc. It's also Bidirectional.
