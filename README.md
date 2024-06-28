@@ -29,6 +29,8 @@ The Workflow relies on **3 main components**
 - OIDC ? (gihub actions Identity)
 
 # RBAC
+<img src="https://files.readme.io/54c7a41-RBAC.JPG" width="600" height="500" />
+- Allows to grant permissions on Secrets & Encryption Keys, Targets, Authentication methods and Access Roles, as long as audit logs, analytics access, Gateways settings and Secure Remote Access (SRA) information.
 
 # Types of Secrets
 
@@ -45,56 +47,8 @@ The Workflow relies on **3 main components**
    for example PKI or ssh certificates issuers alow to connect to remote servers using a CA signed ephemeral ssh cert eleiminating the need for public keys in the servers.
 - **Targets**: Connectors between credentials and the items that need them, ensuring seamless integration and protection from credential breakage.
 - **Oidc app**: alows to create the establish trust between the app and Akeyless for future access token exchange 
-  
+- **tokenizer**(anonymization):  allows data sanitization, such as social security, PII (credit card numbers etc) while preserving data format and uniqueness, and allow for data decryption later on.
+      
 - **Universal Secrets Connectors**:
  Previously called ESM - USC Allows to manage the life cycle of secrets within external secret/vaul platforms Such as Kubernetes secrets, Azure KV, AWS-SM, GCP etc.
 > <img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/4f5760e3-2db3-49a1-bcad-4b09cb3c228d" width="700" height="400" />
-
-Overview
-A 10-minute demo to introduce Akeyless.
-
-- Generate a Customer Fragment
-
-```
-akeyless gen-customer-fragment --name CustomerFragmentDemo --description MyFirstCF --json > customer_fragments.json
-```
-- You'll get the following output:
-```
-{
-  "customer_fragments": [
-    {
-      "id": "cf-p6lta4na60yzkmwrjvtm",
-      "value": "naTTMPLA558l934TZCnK6E0jItSaeVbtp+1MtGnCKsLHOrxi0YW1E6K88EUTwWCVMyt4VTDjmj7D/UssLlGCeA==",
-      "description": "MyFirstCF",
-      "name": "CustomerFragmentDemo"
-    }
-  ]
-}
-```
-**Create a Gateway**
-```
-docker run -d -p 8000:8000 -p 8200:8200 -p 18888:18888 -p 8080:8080 -p 5696:5696 -v ./customer_fragments.json:/home/akeyless/.akeyless/customer_fragments.json -e ADMIN_ACCESS_ID="sam.gabrail@tekanaid.com" -e ADMIN_ACCESS_KEY="" --name akeyless-codespaces-gw akeyless/base:latest-akeyless
-```
-**For K8s Gateway**
-Create a base64 encoding of the customer fragment:
-```
-base64 -w 0 customer_fragments.json
-```
-and add that to the customer-fragments-secret.yaml file.
-Now apply this secret to our namespace:
-
-```
-kubectl apply -f customer-fragments-secret.yaml
-```
-
-Update the values.yaml file to reference this secret:
-```
-customerFragmentsExistingSecret: customer-fragments-secret
-```
-- Install with Helm:
-
-```
-helm repo add akeyless https://akeylesslabs.github.io/helm-charts
-helm repo update
-helm upgrade akeyless-gw akeyless/akeyless-api-gateway -f values.yaml
-``` 
