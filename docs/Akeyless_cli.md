@@ -54,9 +54,13 @@ echo xxxxxxxx== | base64 -d
 # Create secret item
 1. **Static secret**
 ```
-brokedbaa@Orpheus:$ akeyless create-secret --name mysectest2  --value "StaticIsBad " --type generic
+$ akeyless create-secret --name mysectest2  --value "StaticIsBad " --type generic
 A new secret named mysectest2 was successfully created
 ```
 2. **API Key** 
 ```
+$ akeyless create-auth-method -n apiAuth1
+Auth Method apiAuth1 successfully created
+- Access ID: p-6axxxxxxxxxxxx
+- Access Key: CX0KHXxxxxxxxxxxxxxxxxxx=
 ```
