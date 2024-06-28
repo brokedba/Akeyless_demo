@@ -46,7 +46,7 @@ Access Roles Allow to grant permissions on Secrets & Encryption Keys, Targets, A
 **Other**:
 - **Encryption Keys**: AES, RSA, or EC keys used for encrypting data and signing binaries or application transactions. See Encryption Keys
 - **Certificates**: Akeyless acts as a Certificate Authority, supporting PKI/TLS Certificates and SSH certificates for internal environments.
-   for example PKI or ssh certificates issuers alow to connect to remote servers using a CA signed ephemeral ssh cert eleiminating the need for public keys in the servers.
+   for example PKI or ssh certificates issuers alow to connect to remote servers using a CA signed ephemeral ssh cert eliminating the need for public keys in the servers.
 - **Targets**: Are Connectors that link stored credentials to the systems and applications that need them, ensuring seamless integration/protection from credential breakage.
    Seamlessly connect Akeyless with external systems, databases, and applications. alowing for dynamic secret creations, with granular permissions.
 
