@@ -32,14 +32,20 @@ The Workflow relies on **3 main components**
 
 # Types of Secrets
 
-- **Static Secrets**: long lived credentials like Key/value pairs that are manually created and updated. Examples passwords, API tokens, PII, or credit card numbers. See Static Secrets
+- **Static Secrets**: long lived credentials like Key/value pairs that are manually created and updated. Examples passwords, API Keys (PII,credit card numbers..).
 
-- **Dynamic Secrets**: Temporary credentials generated on-demand for limited-time access with restricted permissions. See Dynamic Secrets
+- **Dynamic Secrets**: short lived credentials generated on-demand for limited-time access with restricted permissions like "Just-In-Time" access.  
 
-- **Rotated Secrets**: Periodically updated passwords for privileged-user accounts, stored securely for retrieval when needed. See Rotated Secrets
-![image](https://github.com/brokedba/Akeyless_demo/assets/29458929/3616e5a4-caee-481a-9678-83d6aa7032b9)
+- **Rotated Secrets**: Periodically updated passwords for privileged-user accounts, stored securely for retrieval when needed.  
+>   <img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/3616e5a4-caee-481a-9678-83d6aa7032b9" width="600" height="600" />
 
-
+**Other**:
+- **Targets**: Connectors between credentials and the items that need them, ensuring seamless integration and protection from credential breakage.
+- **Encryption Keys**: AES, RSA, or EC keys used for encrypting data and signing binaries or application transactions. See Encryption Keys
+- **Certificates**: Akeyless acts as a Certificate Authority, supporting PKI/TLS Certificates and SSH certificates for internal environments. See Certificates
+- **Universal Secrets Connectors**:
+ Previously called ESM - USC Allows to manage the life cycle of secrets within external secret/vaul platforms Such as Kubernetes secrets, Azure KV, AWS-SM, GCP etc.
+> <img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/4f5760e3-2db3-49a1-bcad-4b09cb3c228d" width="700" height="400" />
 
 Overview
 A 10-minute demo to introduce Akeyless.
