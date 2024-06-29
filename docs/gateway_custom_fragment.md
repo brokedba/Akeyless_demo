@@ -63,11 +63,11 @@ docker run -d -p 8000:8000 -p 8200:8200 -p 18888:18888 -p 8080:8080 -p 8081:8081
 -p 5696:5696 -e ADMIN_ACCESS_ID="your-access-id" \
 -e ADMIN_ACCESS_KEY="matching-access-key" -e CLUSTER_NAME="meaningful-cluster-name" \
 -e INITIAL_DISPLAY_NAME="display-name" -e CLUSTER_URL="https://<GW_URL>" \
---name akeyless-gw akeyless/base:latest-akeyless
+--name akeyless-dock-gw akeyless/base:latest-akeyless
 ```
 - Encypt your gateway configuration using `CONFIG_PROTECTION_KEY_NAME` argument
  ```
- docker run -d -p 8000:8000 ... --name akeyless-gw akeyless/base:latest-akeyless -e CONFIG_PROTECTION_KEY_NAME="My-Encryption-Key"
+ docker run -d -p 8000:8000 ... --name akeyless-dock-gw akeyless/base:latest-akeyless -e CONFIG_PROTECTION_KEY_NAME="My-Encryption-Key"
   ```
 
  **1) Login to the gateway config manager**
@@ -98,8 +98,8 @@ URL: http://localhost:18888
 
 **Stop and Remove the Existing Docker Container:**
 ```
-docker stop akeyless-gw
-docker rm akeyless-gw
+docker stop akeyless-dock-gw
+docker rm akeyless-dock-gw
 ```
 - Run the Updated Docker Command including admin permissions to 2 clients (api/email):
 
@@ -115,9 +115,17 @@ docker run -d \
   -e ADMIN_ACCESS_ID="p-xxxxxx" \
   -e ADMIN_ACCESS_KEY="62Hu...xxx....qlg=" \
   -e ALLOWED_ACCESS_PERMISSIONS='[{"name":"Administrators","access_id":"p-6ax017dqgi6sam","permissions":["admin"]},{"name":"Administrators","access_id":"p-94lrdxzjhg1fem","permissions":["admin"]}]' \
-  --name akeyless-gw \
+  --name akeyless-dock-gw \
   akeyless/base:latest-akeyless
   ```
+- the ZK:DFC is now created 
+
+> <img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/7a9ca7c5-b3cf-40c8-9877-1c06faf935c5" width="250" height="50" />
+
+
+> <img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/37c4b230-bb7f-4778-89ee-bd19d3b3482c" width="250" height="50" />
+ 
+
 
 **K8s Gateway**
 Create a base64 encoding of the customer fragment:
