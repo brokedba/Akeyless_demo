@@ -95,6 +95,10 @@ akeyless dynamic-secret create mysql \
  
  > ```--gateway-url 'https://your-akeyless-gw-url:8000'``` 
  
+ ><img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/874b9db4-f28c-4b36-aab9-dc2bf6198d99" width="450" height="150" />  
+
+ 
+
 **Fetch a Dynamic Database Secret value from the CLI/Console**
 
 ```
