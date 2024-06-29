@@ -114,7 +114,7 @@ docker run -d \
   -v ./customer_fragments.json:/home/akeyless/.akeyless/customer_fragments.json \
   -e ADMIN_ACCESS_ID="p-xxxxxx" \
   -e ADMIN_ACCESS_KEY="62Hu...xxx....qlg=" \
-  -e ALLOWED_ACCESS_PERMISSIONS='[{"name":"Administrators","access_id":"p-6ax017dqgi6sam","permissions":["admin"]},{"name":"Administrators","access_id":"p-94lrdxzjhg1fem","permissions":["admin"]}]' \
+  -e ALLOWED_ACCESS_PERMISSIONS='[{"name":"Administrators","access_id":"p-94lrdxzjhg1fem","permissions":["admin"]}]' \
   --name akeyless-dock-gw \
   akeyless/base:latest-akeyless
   ```
