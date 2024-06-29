@@ -70,7 +70,7 @@ docker run -d -p 8000:8000 -p 8200:8200 -p 18888:18888 -p 8080:8080 -p 8081:8081
  docker run -d -p 8000:8000 ... --name akeyless-gw akeyless/base:latest-akeyless -e CONFIG_PROTECTION_KEY_NAME="My-Encryption-Key"
   ```
 
- **Login to the gateway config manager**
+ **1) Login to the gateway config manager**
 
  URL: http://localhost:8000
  - Check the Zero knowledge encryption enabled (CF) 
@@ -78,19 +78,46 @@ docker run -d -p 8000:8000 -p 8200:8200 -p 18888:18888 -p 8080:8080 -p 8081:8081
 > <img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/bb9bb988-bbe9-4527-b342-3f5595b0b90a" width="700" height="300" />
 
 
-**Login to the Gateway Console**
+**2) Login to the Gateway Console**
 
 
 URL: http://localhost:18888
 
 <img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/2275f550-a576-4a80-987f-c909fddc1480" width="500" height="300" /> 
 
-**Create a DFC encryption key using customer fragment**
+**3) Create a DFC encryption key using customer fragment**
 
-> Name: DFCEncryptionKeyCF
-> path: /MyVault/Encryption_keys
-> Description: Zero Knowledge based DFC Key (Customer fragment)
+> - Name: DFCEncryptionKeyCF
+> - path: /MyVault/Encryption_keys
+> - Description: Zero Knowledge based DFC Key (Customer fragment)
  <img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/e02386e1-c9f6-4c71-a5dd-60a8b4bddfed" width="500" height="300" />
+
+- **Complains about Permissions**
+> <img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/a0ea0c7f-8d00-406d-bda7-062f6254798a" width="450" height="380" />
+
+
+**Stop and Remove the Existing Docker Container:**
+```
+docker stop akeyless-gw
+docker rm akeyless-gw
+```
+- Run the Updated Docker Command including admin permissions to 2 clients (api/email):
+
+```
+docker run -d \
+  -p 8000:8000 \
+  -p 8200:8200 \
+  -p 18888:18888 \
+  -p 8080:8080 \
+  -p 8081:8081 \
+  -p 5696:5696 \
+  -v ./customer_fragments.json:/home/akeyless/.akeyless/customer_fragments.json \
+  -e ADMIN_ACCESS_ID="p-xxxxxx" \
+  -e ADMIN_ACCESS_KEY="62Hu...xxx....qlg=" \
+  -e ALLOWED_ACCESS_PERMISSIONS='[{"name":"Administrators","access_id":"p-6ax017dqgi6sam","permissions":["admin"]},{"name":"Administrators","access_id":"p-94lrdxzjhg1fem","permissions":["admin"]}]' \
+  --name akeyless-gw \
+  akeyless/base:latest-akeyless
+  ```
 
 **K8s Gateway**
 Create a base64 encoding of the customer fragment:
