@@ -124,15 +124,15 @@ docker run -d \
 
 
 > <img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/37c4b230-bb7f-4778-89ee-bd19d3b3482c" width="250" height="50" />
- 
+- ZK Key creation via CLI
+ ```
+akeyless create-dfc-key --name DFCEncryptionKeyCF --alg AES256GCM -f <customer-fragment-id>
+ ```  
 **Create Zero Knowledg based secret**
 
 - From the Gateway console:
  > <img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/f23d88ff-cb05-4e42-a45d-b1fbae4f9fd1" width="650" height="450" />
-- or via CLI
- ```
-akeyless create-dfc-key --name MyKeyWithMyCF --alg AES256GCM -f <customer-fragment-id>
- ``` 
+
 <img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/09c00216-59de-48db-8889-8a8c40f3fd50" width="300" height="200" />
 
 # **K8s Gateway**
