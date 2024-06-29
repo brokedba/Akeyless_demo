@@ -1,5 +1,5 @@
 # Overview
- A 10-minute demo to introduce Akeyless.
+ Create a gateway with customer fragment and zero knowledge keys.
 
 - Generate a Customer Fragment
 
