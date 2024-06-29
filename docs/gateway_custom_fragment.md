@@ -56,7 +56,8 @@ Checking for latest artifacts
 download: s3://akeylessservices/environment/akeyless-api-proxy to ./akeyless-api-proxy_akeyless-api-proxy_latest
 ```
 **Additional attributes**
-You can  add custer_name and cluster URL to respect your production naming convention
+
+> You can  add custer_name and cluster URL to respect your production naming convention
 ```
 docker run -d -p 8000:8000 -p 8200:8200 -p 18888:18888 -p 8080:8080 -p 8081:8081 \
 -p 5696:5696 -e ADMIN_ACCESS_ID="your-access-id" \
@@ -64,17 +65,32 @@ docker run -d -p 8000:8000 -p 8200:8200 -p 18888:18888 -p 8080:8080 -p 8081:8081
 -e INITIAL_DISPLAY_NAME="display-name" -e CLUSTER_URL="https://<GW_URL>" \
 --name akeyless-gw akeyless/base:latest-akeyless
 ```
-- Encypt your gateway configuration
+- Encypt your gateway configuration using `CONFIG_PROTECTION_KEY_NAME` argument
  ```
  docker run -d -p 8000:8000 ... --name akeyless-gw akeyless/base:latest-akeyless -e CONFIG_PROTECTION_KEY_NAME="My-Encryption-Key"
   ```
+
+ **Login to the gateway config manager**
+
+ URL: http://localhost:8000
+ - Check the Zero knowledge encryption enabled (CF) 
   
+> <img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/bb9bb988-bbe9-4527-b342-3f5595b0b90a" width="700" height="300" />
 
-**Login to the gateway config manager**
-http://localhost:8000
- gateway config mgr URL http://localhost:8000
 
-![image](https://github.com/brokedba/Akeyless_demo/assets/29458929/bb9bb988-bbe9-4527-b342-3f5595b0b90a)
+**Login to the Gateway Console**
+
+
+URL: http://localhost:18888
+
+<img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/2275f550-a576-4a80-987f-c909fddc1480" width="500" height="300" /> 
+
+**Create a DFC encryption key using customer fragment**
+
+> Name: DFCEncryptionKeyCF
+> path: /MyVault/Encryption_keys
+> Description: Zero Knowledge based DFC Key (Customer fragment)
+ <img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/e02386e1-c9f6-4c71-a5dd-60a8b4bddfed" width="500" height="300" />
 
 **K8s Gateway**
 Create a base64 encoding of the customer fragment:
