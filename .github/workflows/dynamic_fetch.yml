@@ -26,9 +26,9 @@ jobs:
         uses: akeyless-community/akeyless-github-action@v1.0.1
         with:
           # Akeyless Access ID, Unless token is provided, it is required.
-          access-id: # optional
+          access-id: ${{ secrets.AKEYLESS_ACCESS_ID }} # optional
           # The method to use to authenticate with Akeyless Vault, Unless token is provided, it is required.
-          access-type: # optional, default is jwt
+          access-type: jwt # optional, default is jwt
           # Akeyless authentication token.
           token: # optional
           # The API endpoint to use, defaults to https://api.akeyless.io.
