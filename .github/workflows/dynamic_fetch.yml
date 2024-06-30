@@ -30,8 +30,7 @@ jobs:
           access-type: jwt
           api-url: https://api.akeyless.io
           static-secrets: '{"/MyVault/DBs/OCI_RSA":"MY_RSA"}'   
-          dynamic-secrets: |
-            - name: '{/MyVault/DBs/MySQLDynamicSecret":"MYSQL_DYNAMIC_SECRET"}'
+          dynamic-secrets: '{/MyVault/DBs/MySQLDynamicSecret":"MYSQL_DYNAMIC_SECRET"}'
 
       - name: Create PEM File & Export Dynamic Secret to Environment
         run: |
