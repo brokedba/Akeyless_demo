@@ -2,7 +2,7 @@
 # GitHub Actions Plugin
 [Akeyless Official GitHub Actions ](https://github.com/marketplace/actions/akeyless-authentication-and-fetching-secrets), plugin enables you to automate workflows for your GitHub-hosted repositories. 
 
-With the GitHub Actions plugin, you can fetch secrets directly from Akeyless into your workflows. This guide describes how to use our various Authentication Methods to fetch Static, Dynamic, and Rotated secrets, as well as SSH and PKI certificates, from Akeyless.
+With the GitHub Actions plugin, you can fetch secrets directly from Akeyless into your workflows.
 
 **Prerequisites**
 Job permissions requirement: (Relevant for OAuth 2.0 / JWT Authentication only)
@@ -38,6 +38,7 @@ akeyless create-role --name /MyVault/roles/GitHubRole
 ```shell
 akeyless set-role-rule --role-name /MyVault/roles/GitHubRole --path "/MyVault/DBs/*" \
 --capability read --capability list --capability create  --capability update
+
 ```
 **3. associate the role with github_auth**
  akeyless assoc-role-am --role-name /MyVault/roles/GitHubRole --am-name /Identity/GitHubAuth
