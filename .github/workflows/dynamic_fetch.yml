@@ -37,20 +37,23 @@ jobs:
               output-name: "MYSQL_DYNAMIC_SECRET"      
          # static-secrets: '{"/MyVault/DBs/OCI_RSA":"MY_RSA"}'   
          # dynamic-secrets:'{"/MyVault/DBs/MySQLDynamicSecret":"MYSQL_DYNAMIC_SECRET"}'
- #     - name: Debug Fetched Secrets
- #       run: |
- #         echo "MY_RSA: ${{ steps.fetch-secrets.outputs.MY_RSA }}"
- #         echo "MYSQL_DYNAMIC_SECRET: ${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}"
-       
+      - name: Debug Fetched Secrets
+        run: |
+          echo "MY_RSA: ${{ steps.fetch-secrets.outputs.MY_RSA }}"
+          echo "MYSQL_DYNAMIC_SECRET: ${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}"
+      
       - name: Create PEM File & Export Dynamic Secret to Environment
-      # Mask the JWT credentials to ensure they are not printed in logs     
       #  echo ${{ steps.fetch-secrets.outputs.MY_RSA }} | base64 -d >> rsa.pem   
         run: | 
           echo '${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}' | jq -r 'to_entries|map("JWT_\(.key)=\(.value|tostring)")|.[]' >> $GITHUB_ENV          
+      
+      # Mask the secrets to ensure they are not printed in logs
+      - name: Mask Secrets
+        run: |
           echo "::add-mask::${{ env.JWT_id }}"
           echo "::add-mask::${{ env.JWT_password }}" 
           echo "::add-mask::${{ vars.MYSQL_IP }}"  
-     
+      
       #- name: Verify Vars
       #  run: |
       #    echo "id: ${{ env.JWT_id }}"
