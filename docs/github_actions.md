@@ -45,5 +45,6 @@ akeyless set-role-rule --role-name /MyVault/roles/GitHubRole --path "/MyVault/DB
 **4. associate the role with github_auth**
 
 ```bash
- akeyless assoc-role-am --role-name /MyVault/roles/GitHubRole --am-name /Identity/GitHubAuth
+ akeyless assoc-role-am --role-name /MyVault/roles/GitHubRole \
+--am-name /Identity/GitHubAuth --sub-claims repository=brokedba/Akeyless_demo
  ```
