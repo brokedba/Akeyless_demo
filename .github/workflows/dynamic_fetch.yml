@@ -52,8 +52,9 @@ jobs:
         run: |
           echo "::add-mask::${{ steps.fetch-secrets.outputs.MY_RSA }}"
           echo "::add-mask::${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}"
-          export LC_user=${{ env.JWT_id }}
-          export LC_pass=${{ env.JWT_password }}  
+          echo "::add-mask::${{ env.JWT_id }}
+          echo "::add-mask::${{ env.JWT_password }} 
+          echo "::add-mask::${{ vars.MYSQL_IP }}  
       
       #- name: Verify Vars
       #  run: |
