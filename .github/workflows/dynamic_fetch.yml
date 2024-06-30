@@ -24,7 +24,7 @@ jobs:
       # Akeyless Authentication and fetching secrets
       - name: Akeyless Authentication and fetching secrets
         id: fetch-secrets
-        uses: akeyless-community/akeyless-github-action@v1.1.1
+        uses: akeyless-community/akeyless-github-action@v1.0.1
         with:
           # Akeyless Access ID, Unless token is provided, it is required.
           # export-secrets-to-outputs: true # optional, default is true
