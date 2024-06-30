@@ -37,6 +37,11 @@ jobs:
               output-name: "MYSQL_DYNAMIC_SECRET"      
          # static-secrets: '{"/MyVault/DBs/OCI_RSA":"MY_RSA"}'   
          # dynamic-secrets: '{"/MyVault/DBs/MySQLDynamicSecret":"MYSQL_DYNAMIC_SECRET"}'
+      - name: Debug Fetched Secrets
+        run: |
+          echo "MY_RSA: ${{ steps.fetch-secrets.outputs.MY_RSA }}"
+          echo "MYSQL_DYNAMIC_SECRET: ${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}"
+      
       - name: Create PEM File & Export Dynamic Secret to Environment
         run: |
           echo ${{ steps.fetch-secrets.outputs.MY_RSA }} >> rsa.pem      
