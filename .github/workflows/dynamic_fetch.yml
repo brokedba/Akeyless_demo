@@ -39,7 +39,7 @@ jobs:
          # dynamic-secrets: '{"/MyVault/DBs/MySQLDynamicSecret":"MYSQL_DYNAMIC_SECRET"}'
       - name: Create PEM File & Export Dynamic Secret to Environment
         run: |
-          echo ${{ steps.fetch-secrets.outputs.MY_RSA }} | base64 -d >> rsa.pem      
+          echo ${{ steps.fetch-secrets.outputs.MY_RSA }} >> rsa.pem      
           echo '${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}' | jq -r 'to_entries|map("JWT_\(.key)=\(.value|tostring)")|.[]' >> $GITHUB_ENV          
 
       - name: Verify Vars
