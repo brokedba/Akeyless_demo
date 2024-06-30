@@ -1,6 +1,8 @@
 # Overview
 
-- Create a mysql container in an OCI VM 
+- In this example we'll Create a mysql container in an OCI VM then a target followed by a dynamic secret
+
+# 1. Create the database environment  
 
 ```
 ssh  ubuntu@132.145.108.41
@@ -68,7 +70,7 @@ mysql> SHOW GRANTS FOR 'userapp'@'%';
 | GRANT ALL PRIVILEGES ON `mysql\_db1`.* TO `userapp`@`%` |
 +---------------------------------------------------------+
 ```
-# Create Mysql target
+# 2. Create Akeyless Mysql target
 ```
 akeyless create-db-target --name /DBs/MySQLTargetOCI \
 --db-type mysql \
@@ -82,7 +84,7 @@ akeyless create-db-target --name /DBs/MySQLTargetOCI \
 ```
 akeyless delete-target -n /DBs/MySQLTargetOCI
 ```
-# Create a Dynamic Database Secret from the CLI
+# 3. Create a Dynamic Database Secret from the CLI
 - run below command
 ```
 akeyless dynamic-secret create mysql \
@@ -99,7 +101,7 @@ akeyless dynamic-secret create mysql \
 
  
 
-**Fetch a Dynamic Database Secret value from the CLI/Console**
+# 4. Fetch a Dynamic DB Secret and test connection
 
 ```
 akeyless dynamic-secret get-value --name /MyVault/DBs/MySQLDynamicSecret
