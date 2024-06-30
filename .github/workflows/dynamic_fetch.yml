@@ -51,9 +51,9 @@ jobs:
       - name: Mask Secrets
         run: |
           echo "::add-mask::${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}"
-          echo "::add-mask::${{ env.JWT_id }}
-          echo "::add-mask::${{ env.JWT_password }} 
-          echo "::add-mask::${{ vars.MYSQL_IP }}  
+          echo "::add-mask::${{ env.JWT_id }}"
+          echo "::add-mask::${{ env.JWT_password }}" 
+          echo "::add-mask::${{ vars.MYSQL_IP }}"  
       
       #- name: Verify Vars
       #  run: |
