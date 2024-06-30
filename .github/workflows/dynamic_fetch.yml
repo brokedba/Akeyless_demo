@@ -63,7 +63,7 @@ jobs:
       
       - name: Run MySQL Command
         run: |
-          mysql -h ${{ vars.MYSQL_IP }} -P 3306 -u ${{ env.JWT_id }} -p${{ env.JWT_password }}  -e 'USE mysql_db1; INSERT INTO DEPT VALUES (40, "DEVOPS", "LA");'
+          mysql -h ${{ vars.MYSQL_IP }} -P 3306 -u ${{ env.JWT_id }} -p${{ env.JWT_password }}  -e 'USE mysql_db1; "INSERT INTO DEPT (DEPTNO, DNAME, LOC) SELECT IFNULL(MAX(DEPTNO), 0) + 1, 'DEVOPS', 'LA' FROM DEPT;'
 
 
       #- name: SSH into Host and Update Database Table
