@@ -49,4 +49,48 @@ akeyless set-role-rule --role-name /MyVault/roles/GitHubRole --path "/MyVault/DB
 --am-name /Identity/GitHubAuth --sub-claims repository=brokedba/Akeyless_demo
  ```
 **5. add Akeyless ACESS ID as repo secret**
-![alt text](image.png)
+![alt text](image/image.png)
+
+# mysql database table prep
+**1. Run the folowing script in your mysql DB**
+**2. update the mysql statement to allow dynamic user to update the mysql_db1 tables**
+```bash
+akeyless dynamic-secret update mysql   --name /MyVault/DBs/MySQLDynamicSecret --target-name /DBs/MySQLTargetOCI --mysql-stat
+ements "CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}' PASSWORD EXPIRE INTERVAL 30 DAY; GRANT SELECT, INSERT, UPDATE ON mysql_db1.* TO '{{name}}'@'%';"
+```
+# Worklflow
+- see file in repository [workflow](../.github/workflows/dynamic_fetch.yml )
+**snipet**
+```yaml
+jobs:
+  job_Akeyless_secrets:
+    runs-on: ubuntu-latest
+    environment: test-labs
+    defaults:
+      run:
+        shell: bash
+    #---------Required---------#
+    permissions: 
+      id-token: write
+      contents: read
+    #--------------------------#   
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v3   
+      # Akeyless Authentication and fetching secrets
+      - name: Akeyless Authentication and fetching secrets
+        id: fetch-secrets
+        uses: akeyless-community/akeyless-github-action@v1.1.1
+        with:
+          access-id: ${{ secrets.AKEYLESS_ACCESS_ID }}
+          access-type: jwt
+          api-url: https://api.akeyless.io
+          static-secrets: |
+            - name: "/MyVault/DBs/OCI_RSA"
+              output-name: "MY_RSA" 
+          dynamic-secrets: |
+            - name: "/MyVault/DBs/MySQLDynamicSecret"
+              output-name: "MYSQL_DYNAMIC_SECRET"      
+```
+- 
