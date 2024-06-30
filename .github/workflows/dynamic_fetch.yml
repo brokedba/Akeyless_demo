@@ -36,7 +36,7 @@ jobs:
             - name: "/MyVault/DBs/MySQLDynamicSecret"
               output-name: "MYSQL_DYNAMIC_SECRET"      
          # static-secrets: '{"/MyVault/DBs/OCI_RSA":"MY_RSA"}'   
-         # dynamic-secrets: '{"/MyVault/DBs/MySQLDynamicSecret":"MYSQL_DYNAMIC_SECRET"}'
+         # dynamic-secrets:'{"/MyVault/DBs/MySQLDynamicSecret":"MYSQL_DYNAMIC_SECRET"}'
       - name: Debug Fetched Secrets
         run: |
           echo "MY_RSA: ${{ steps.fetch-secrets.outputs.MY_RSA }}"
