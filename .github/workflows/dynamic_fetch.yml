@@ -1,6 +1,6 @@
 name: 'My_Akeyless_Workflow'
 on:
-  pull_request:
+  push:
     branches: [ "main" ]
     paths:
       - '.github/workflows/dynamic_fetch.yml'    
