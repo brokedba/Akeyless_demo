@@ -24,7 +24,7 @@ jobs:
       # Akeyless Authentication and fetching secrets
       - name: Akeyless Authentication and fetching secrets
         id: fetch-secrets
-        uses: akeyless-community/akeyless-github-action@v1.0.1
+        uses: akeyless-community/akeyless-github-action@v1.1.1
         with:
           access-id: ${{ secrets.AKEYLESS_ACCESS_ID }}
           access-type: jwt
@@ -39,7 +39,7 @@ jobs:
          # dynamic-secrets: '{"/MyVault/DBs/MySQLDynamicSecret":"MYSQL_DYNAMIC_SECRET"}'
       - name: Create PEM File & Export Dynamic Secret to Environment
         run: |
-          echo ${{ env.MY_RSA }} | base64 -d >> rsa.pem      
+          echo ${{ steps.fetch-secrets.outputs.MY_RSA }} | base64 -d >> rsa.pem      
           echo '${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}' | jq -r 'to_entries|map("JWT_\(.key)=\(.value|tostring)")|.[]' >> $GITHUB_ENV          
 
       - name: Verify Vars
