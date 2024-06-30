@@ -38,32 +38,34 @@ jobs:
          # static-secrets: '{"/MyVault/DBs/OCI_RSA":"MY_RSA"}'   
          # dynamic-secrets:'{"/MyVault/DBs/MySQLDynamicSecret":"MYSQL_DYNAMIC_SECRET"}'
       
-      - name: Debug Fetched Secrets
-        run: |
-          echo "MY_RSA: ${{ steps.fetch-secrets.outputs.MY_RSA }}"
-          echo "MYSQL_DYNAMIC_SECRET: ${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}"
-      
+#      - name: Debug Fetched Secrets
+#        run: |
+#          echo "MY_RSA: ${{ steps.fetch-secrets.outputs.MY_RSA }}"
+#          echo "MYSQL_DYNAMIC_SECRET: ${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}"
+# echo '${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}' | jq -r 'to_entries|map("JWT_\(.key)=\(.value|tostring)")|.[]' >> $GITHUB_ENV               
       - name: Create PEM File & Export Dynamic Secret to Environment
       #  echo ${{ steps.fetch-secrets.outputs.MY_RSA }} | base64 -d >> rsa.pem   
         run: | 
-          echo '${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}' | jq -r 'to_entries|map("JWT_\(.key)=\(.value|tostring)")|.[]' >> $GITHUB_ENV          
-      
+          echo "${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}" | jq -r 'to_entries|map("::add-mask::\(.value|tostring)")|.[]' | xargs -I {} echo {}
+          USER=$(echo "${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}" | jq -r '.user')
+          PASSWORD=$(echo "${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}" | jq -r '.password')
+          echo "::add-mask::$USER"
+          echo "::add-mask::$PASSWORD"
+          echo "USER=$USER" >> $GITHUB_ENV
+          echo "PASSWORD=$PASSWORD" >> $GITHUB_ENV
+
       # Mask the secrets to ensure they are not printed in logs
-      - name: Mask Secrets
-        run: |
-          echo "::add-mask::${{ env.JWT_id }}"
-          echo "::add-mask::${{ env.JWT_password }}" 
-          echo "::add-mask::${{ vars.MYSQL_IP }}"  
+ #     - name: Mask Secrets
+ #       run: |
+ #         echo "::add-mask::${{ env.JWT_id }}"
+ #         echo "::add-mask::${{ env.JWT_password }}" 
+ #         echo "::add-mask::${{ vars.MYSQL_IP }}"  
       
-      #- name: Verify Vars
-      #  run: |
-      #    echo "id: ${{ env.JWT_id }}"
-      #    echo "password: ${{ env.JWT_password }}"
+
       # Run MySQL Commands Remotely
-      
       - name: Run MySQL Command
         run: |
-          mysql -h ${{ vars.MYSQL_IP }} -P 3306 -u ${{ env.JWT_id }} -p${{ env.JWT_password }}  -e 'USE mysql_db1; INSERT INTO DEPT (DEPTNO, DNAME, LOC) SELECT IFNULL(MAX(DEPTNO), 0) + 1, "DEVOPS", "LA" FROM DEPT;'
+          mysql -h ${{ vars.MYSQL_IP }} -P 3306 -u $USER -p$PASSWORD  -e 'USE mysql_db1; INSERT INTO DEPT (DEPTNO, DNAME, LOC) SELECT IFNULL(MAX(DEPTNO), 0) + 1, "DEVOPS", "LA" FROM DEPT;'
 
 
       #- name: SSH into Host and Update Database Table
