@@ -20,25 +20,30 @@ jobs:
 ```
 
 **OAuth 2.0 / JWT**
-Create a new OAuth 2.0 / JWT Authentication Method using the CLI:
+**1. Create a new OAuth 2.0 / JWT Authentication Method using the CLI**
 
 ```Shell
-
 akeyless create-auth-method-oauth2 --name /Identity/GitHubAuth  \
 --jwks-uri https://token.actions.githubusercontent.com/.well-known/jwks \
 --unique-identifier repository \
 --force-sub-claims
 ```
 
-**1. Create role**
-in /MyVault/roles
+**2. Create role** in `/MyVault/roles` 
+
+```shell
 akeyless create-role --name /MyVault/roles/GitHubRole
-**2. Add access permission to role (mysqlDB dynamic secret)** 
+```
+**3. Add access permission to role (mysqlDB dynamic secret)** 
 `/MyVault/DBs/*`
+
 ```shell
 akeyless set-role-rule --role-name /MyVault/roles/GitHubRole --path "/MyVault/DBs/*" \
 --capability read --capability list --capability create  --capability update
 
 ```
-**3. associate the role with github_auth**
+**4. associate the role with github_auth**
+
+```bash
  akeyless assoc-role-am --role-name /MyVault/roles/GitHubRole --am-name /Identity/GitHubAuth
+ ```
