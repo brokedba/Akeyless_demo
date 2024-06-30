@@ -6,7 +6,7 @@ on:
       - '.github/workflows/dynamic_fetch.yml'    
 
 jobs:
-  job_test_secrets:
+  job_Akeyless_secrets:
     runs-on: ubuntu-latest
     environment: test-labs
     defaults:
@@ -26,14 +26,13 @@ jobs:
         id: fetch-secrets
         uses: akeyless-community/akeyless-github-action@v1.0.1
         with:
-          # Akeyless Access ID, Unless token is provided, it is required.
-          # export-secrets-to-outputs: true # optional, default is true
-          # export-secrets-to-environment: true # optional, default is true
-          access-id: ${{ secrets.AKEYLESS_ACCESS_ID }} # optional
-          access-type: jwt # optional, default is jwt
-          api-url: https://api.akeyless.io # optional, same as default 
-          static-secrets: '{"OCI_RSA":"MY_RSA"}'
-          dynamic-secrets: '{"MySQLDynamicSecret":"MYSQL_DYNAMIC_SECRET"}'         
+          access-id: ${{ secrets.AKEYLESS_ACCESS_ID }}
+          access-type: jwt
+          api-url: https://api.akeyless.io
+          static-secrets: '{"/MyVault/DBs/OCI_RSA":"MY_RSA"}'   
+          dynamic-secrets: |
+            - name: /MyVault/DBs/MySQLDynamicSecret
+              output-name: MYSQL_DYNAMIC_SECRET
 
       - name: Create PEM File & Export Dynamic Secret to Environment
         run: |
@@ -48,13 +47,14 @@ jobs:
       - name: SSH into Host and Update Database Table
         run: |
           echo -e '#!/bin/bash' >> department.sh
-          echo -e "mysql -u\$LC_user -p\$LC_pass -e 'USE mysql_db1; INSERT INTO DEPT VALUES (40, \"DEVOPS\"', \"LA\");'" >> department.sh
+          echo -e "mysql -u\$LC_user -p\$LC_pass -e 'USE mysql_db1; INSERT INTO DEPT VALUES (40, \"DEVOPS\", \"LA\");'" >> department.sh
           export LC_user=${{ env.JWT_id }}
           export LC_pass=${{ env.JWT_password }}
           chmod 600 rsa.pem
           scp -o StrictHostKeyChecking=no -i "rsa.pem" department.sh ubuntu@${{ vars.MYSQL_IP }}:~/.
-          ssh -o "SendEnv LC_*" -o StrictHostKeyChecking=no -i "rsa.pem" ubuntu@${{ vars.MYSQL_IP }} -t "bash department.sh" # SSH into Remote EC2 Host and update DB
+          ssh -o "SendEnv LC_*" -o StrictHostKeyChecking=no -i "rsa.pem" ubuntu@${{ vars.MYSQL_IP }} -t "bash department.sh"
           echo "Database mysql_db1 department table updated!"
+
 
           # ---------------------------------------------------------------------
           # True/False to denote if static/dynamic secrets should be exported as action outputs.       
