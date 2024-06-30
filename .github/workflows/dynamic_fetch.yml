@@ -1,38 +1,62 @@
-  - name: Akeyless Authentication and fetching secrets
-  # You may pin to the exact commit or the version.
-  # uses: akeyless-community/akeyless-github-action@43ecc17479747f00b3590e167f6b17cc3e9534e5
-  uses: akeyless-community/akeyless-github-action@v1.0.1
-  with:
-    # Akeyless Access ID, Unless token is provided, it is required.
-    access-id: # optional
-    # The method to use to authenticate with Akeyless Vault, Unless token is provided, it is required.
-    access-type: # optional, default is jwt
-    # Akeyless authentication token.
-    token: # optional
-    # The API endpoint to use, defaults to https://api.akeyless.io.
-    api-url: # optional, default is https://api.akeyless.io
-    # Akeyless Access Key
-    access-key: # optional
-    # GCP audience to use in signed JWT (relevant only for access-type=gcp)
-    gcp-audience: # optional, default is akeyless.io
-    # Gateway URL for the K8S authenticated (relevant only for access-type=k8s)
-    gateway-url: # optional
-    # The K8S Auth config name (relevant only for access-type=k8s)
-    k8s-auth-config-name: # optional
-    # The CA certificate for the authentication to gateway
-    ca-certificate: # optional
-    # A YAML list representing static secrets to fetch
-    static-secrets: # optional
-    # A YAML list representing dynamic secrets to fetch.
-    dynamic-secrets: # optional
-    # A YAML list representing rotated secrets to fetch.
-    rotated-secrets: # optional
-    # A YAML list representing ssh certificates to fetch.
-    ssh-certificates: # optional
-    # A YAML list representing pki certificates to fetch.
-    pki-certificates: # optional
-    # True/False to denote if static/dynamic secrets should be exported as action outputs.
-    export-secrets-to-outputs: # optional, default is true
-    # True/False to denote if static/dynamic secrets should be exported as environment variables.
-    export-secrets-to-environment: # optional, default is true
+name: 'My_Akeyless_Workflow'
+on:
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - '.github/workflows/dynamic_fetch.yml'    
+
+jobs:
+  job_test_secrets:
+    runs-on: ubuntu-latest
+    environment: test-labs
+    defaults:
+      run:
+        shell: bash
+    #---------Required---------#
+    permissions: 
+      id-token: write
+      contents: read
+    #--------------------------#   
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v3   
+      # Akeyless Authentication and fetching secrets
+      - name: Akeyless Authentication and fetching secrets
+        uses: akeyless-community/akeyless-github-action@v1.0.1
+        with:
+          # Akeyless Access ID, Unless token is provided, it is required.
+          access-id: # optional
+          # The method to use to authenticate with Akeyless Vault, Unless token is provided, it is required.
+          access-type: # optional, default is jwt
+          # Akeyless authentication token.
+          token: # optional
+          # The API endpoint to use, defaults to https://api.akeyless.io.
+          api-url: https://api.akeyless.io # optional, same as default 
+          # Akeyless Access Key
+          access-key: # optional
+          static-secrets: # optional
+          # A YAML list representing dynamic secrets to fetch.
+          dynamic-secrets: # optional
+          # A YAML list representing rotated secrets to fetch.
+          # rotated-secrets: # optional
+          # A YAML list representing ssh certificates to fetch.
+          # ssh-certificates: # optional
+          # A YAML list representing pki certificates to fetch.
+          # pki-certificates: # optional
+          # True/False to denote if static/dynamic secrets should be exported as action outputs.
+          export-secrets-to-outputs: true # optional, default is true
+          # True/False to denote if static/dynamic secrets should be exported as environment variables.
+          export-secrets-to-environment: true # optional, default is true
+
           
+          # ---------------------------------------------------------------------
+          # GCP audience to use in signed JWT (relevant only for access-type=gcp)
+          # gcp-audience: # optional, default is akeyless.io
+          # Gateway URL for the K8S authenticated (relevant only for access-type=k8s)
+          # gateway-url: # optional
+          # The K8S Auth config name (relevant only for access-type=k8s)
+          # k8s-auth-config-name: # optional
+          # The CA certificate for the authentication to gateway
+          # ca-certificate: # optional
+          # A YAML list representing static secrets to fetch
