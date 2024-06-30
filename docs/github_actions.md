@@ -48,3 +48,5 @@ akeyless set-role-rule --role-name /MyVault/roles/GitHubRole --path "/MyVault/DB
  akeyless assoc-role-am --role-name /MyVault/roles/GitHubRole \
 --am-name /Identity/GitHubAuth --sub-claims repository=brokedba/Akeyless_demo
  ```
+**5. add Akeyless ACESS ID as repo secret**
+![alt text](image.png)
