@@ -23,34 +23,51 @@ jobs:
         uses: actions/checkout@v3   
       # Akeyless Authentication and fetching secrets
       - name: Akeyless Authentication and fetching secrets
-        uses: akeyless-community/akeyless-github-action@v1.0.1
+        id: fetch-secrets
+        uses: akeyless-community/akeyless-github-action@v1.1.1
         with:
           # Akeyless Access ID, Unless token is provided, it is required.
+          # export-secrets-to-outputs: true # optional, default is true
+          # export-secrets-to-environment: true # optional, default is true
           access-id: ${{ secrets.AKEYLESS_ACCESS_ID }} # optional
-          # The method to use to authenticate with Akeyless Vault, Unless token is provided, it is required.
           access-type: jwt # optional, default is jwt
-          # Akeyless authentication token.
-          token: # optional
-          # The API endpoint to use, defaults to https://api.akeyless.io.
           api-url: https://api.akeyless.io # optional, same as default 
+          static-secrets: '{"OCI_RSA":"MY_RSA"}'
+          dynamic-secrets: '{"MySQLDynamicSecret":"MYSQL_DYNAMIC_SECRET"}'         
+
+      - name: Create PEM File & Export Dynamic Secret to Environment
+        run: |
+          echo ${{ env.MY_RSA }} | base64 -d >> rsa.pem      
+          echo '${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}' | jq -r 'to_entries|map("JWT_\(.key)=\(.value|tostring)")|.[]' >> $GITHUB_ENV          
+
+      - name: Verify Vars
+        run: |
+          echo "id: ${{ env.JWT_id }}"
+          echo "password: ${{ env.JWT_password }}"
+
+      - name: SSH into Host and Update Database Table
+        run: |
+          echo -e '#!/bin/bash' >> department.sh
+          echo -e "mysql -u\$LC_user -p\$LC_pass -e 'USE mysql_db1; INSERT INTO DEPT VALUES (40, \"DEVOPS\"', \"LA\");'" >> department.sh
+          export LC_user=${{ env.JWT_id }}
+          export LC_pass=${{ env.JWT_password }}
+          chmod 600 rsa.pem
+          scp -o StrictHostKeyChecking=no -i "rsa.pem" department.sh ubuntu@${{ vars.MYSQL_IP }}:~/.
+          ssh -o "SendEnv LC_*" -o StrictHostKeyChecking=no -i "rsa.pem" ubuntu@${{ vars.MYSQL_IP }} -t "bash department.sh" # SSH into Remote EC2 Host and update DB
+          echo "Database mysql_db1 department table updated!"
+
+          # ---------------------------------------------------------------------
+          # True/False to denote if static/dynamic secrets should be exported as action outputs.       
+          # Akeyless authentication token.
+          # token: # optional
           # Akeyless Access Key
-          access-key: # optional
-          static-secrets: # optional
-          # A YAML list representing dynamic secrets to fetch.
-          dynamic-secrets: # optional
+          # access-key: # optional
           # A YAML list representing rotated secrets to fetch.
           # rotated-secrets: # optional
           # A YAML list representing ssh certificates to fetch.
           # ssh-certificates: # optional
           # A YAML list representing pki certificates to fetch.
           # pki-certificates: # optional
-          # True/False to denote if static/dynamic secrets should be exported as action outputs.
-          export-secrets-to-outputs: true # optional, default is true
-          # True/False to denote if static/dynamic secrets should be exported as environment variables.
-          export-secrets-to-environment: true # optional, default is true
-
-          
-          # ---------------------------------------------------------------------
           # GCP audience to use in signed JWT (relevant only for access-type=gcp)
           # gcp-audience: # optional, default is akeyless.io
           # Gateway URL for the K8S authenticated (relevant only for access-type=k8s)
