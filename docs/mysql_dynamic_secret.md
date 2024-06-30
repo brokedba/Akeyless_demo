@@ -3,7 +3,10 @@
 - In this example we'll Create a mysql container in an OCI VM then a target followed by a dynamic secret
 
 # 1. Create the database environment  
+- Open 3306 port in the vm subnet 
+![image](https://github.com/brokedba/Akeyless_demo/assets/29458929/1e16d1b0-aee6-4d69-8d6e-e61061eaa486)
 
+- install docker
 ```
 ssh  ubuntu@132.145.108.41
 sudo apt update
@@ -17,7 +20,7 @@ sudo usermod -aG docker ${USER}
 sudo usermod -aG docker ubuntu
 --- log out/log in
 ```
-- pulling mysql image
+- pull mysql image
 
 ```
 $ docker pull mysql/mysql-server
@@ -45,7 +48,7 @@ mysql:latest
   ```
    mysql -h 127.0.0.1 -P 3306 -uroot -p
   ```
-- Create / ALTER appuser with grants
+- Create / ALTER `appuser` with grants
 ```
 --- CREATE USER 'appuser'@'%' IDENTIFIED with mysql_native_password  BY 'welcome1';
 GRANT ALL PRIVILEGES ON *.* TO 'userapp'@'%' WITH GRANT OPTION;
@@ -80,7 +83,7 @@ akeyless create-db-target --name /DBs/MySQLTargetOCI \
 --pwd welcome1 \
 --db-name mysql_db1
 ```
-- delete target command :
+- delete target command in case of errors :
 ```
 akeyless delete-target -n /DBs/MySQLTargetOCI
 ```
