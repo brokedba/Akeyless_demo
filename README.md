@@ -28,6 +28,7 @@ The Workflow relies on **3 main components**
 - [API Keys](https://docs.akeyless.io/docs/api-key)
 - OIDC ? (gihub actions Identity)
 
+> **Note:** see how clients are counted [here](https://www.akeyless.io/akeyless-clients/)
 # Access Role RBAC
 <img src="https://files.readme.io/54c7a41-RBAC.JPG" width="400" height="300" />
 Access Roles Allow to grant permissions on Secrets & Encryption Keys, Targets, Authentication methods and Access Roles, as long as audit logs, analytics access, Gateways settings and Secure Remote Access (SRA) information.
