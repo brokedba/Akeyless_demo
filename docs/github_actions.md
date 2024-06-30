@@ -53,6 +53,8 @@ akeyless set-role-rule --role-name /MyVault/roles/GitHubRole --path "/MyVault/DB
 
 # mysql database table prep
 **1. Run the folowing script in your mysql DB**
+- see [mysqldb_prep.sql](scripts/mysqldb_prep.sql)
+
 **2. update the mysql statement to allow dynamic user to update the mysql_db1 tables**
 ```bash
 akeyless dynamic-secret update mysql   --name /MyVault/DBs/MySQLDynamicSecret --target-name /DBs/MySQLTargetOCI --mysql-stat
