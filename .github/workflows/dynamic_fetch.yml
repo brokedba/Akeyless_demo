@@ -46,9 +46,9 @@ jobs:
       - name: Create PEM File & Export Dynamic Secret to Environment
       #  echo ${{ steps.fetch-secrets.outputs.MY_RSA }} | base64 -d >> rsa.pem   
         run: | 
-          echo "${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}" | jq -r 'to_entries|map("::add-mask::\(.value|tostring)")|.[]' | xargs -I {} echo {}
-          USER=$(echo "${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}" | jq -r '.user')
-          PASSWORD=$(echo "${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}" | jq -r '.password')
+          DYNAMIC_SECRET="${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}"
+          USER=$(echo "$DYNAMIC_SECRET" | jq -r '.id')
+          PASSWORD=$(echo "$DYNAMIC_SECRET" | jq -r '.password')
           echo "::add-mask::$USER"
           echo "::add-mask::$PASSWORD"
           echo "USER=$USER" >> $GITHUB_ENV
