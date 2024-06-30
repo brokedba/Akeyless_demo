@@ -50,7 +50,6 @@ jobs:
       # Mask the secrets to ensure they are not printed in logs
       - name: Mask Secrets
         run: |
-#echo "::add-mask::${{ steps.fetch-secrets.outputs.MY_RSA }}"
           echo "::add-mask::${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}"
           echo "::add-mask::${{ env.JWT_id }}
           echo "::add-mask::${{ env.JWT_password }} 
