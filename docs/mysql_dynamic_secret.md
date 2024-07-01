@@ -144,5 +144,27 @@ mysql> SHOW GRANTS FOR CURRENT_USER();
 - DBeaver
 > <img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/24fcf42d-bf81-4093-81b7-8620f071f8f3" width="500" height="400" />
  
+# Rotated secret for the target
+- Create a rotated secret for the mysql DB target user
+```bash
+akeyless rotated-secret create mysql \
+--name /MyVault/DBs/MySQLRotatedSecret \
+--target-name /DBs/MySQLTargetOCI \
+--authentication-credentials use-target-creds \
+--password-length 16 \
+--rotator-type target \
+--auto-rotate false \
+--rotation-interval 30 \
+--rotation-hour 0200
 
+# ----- Options:
+# --gateway-url 'https://<Your-Akeyless-GW-URL:8000>' 
+# --authentication-credentials <use-user-creds|use-target-creds> 
+# --rotator-type <password|target>
+# --rotated-username <username> \
+# --rotated-password <password to rotate> \
+```
+- Manual secret rotation :
+> No methods available in Akeyless CLI 
+<img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/7b841447-3d6c-4aa3-bdd5-c933df4248d0" width="400" height="300" />
 
