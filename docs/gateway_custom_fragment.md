@@ -103,7 +103,7 @@ docker rm akeyless-dock-gw
 ```
 - Run the Updated Docker Command including admin permissions to 2 clients (api/email):
 
-```
+```bash
 docker run -d \
   -p 8000:8000 \
   -p 8200:8200 \
@@ -118,6 +118,28 @@ docker run -d \
   --name akeyless-dock-gw \
   akeyless/base:latest-akeyless
   ```
+# Akeyless Gateway with TLS
+- It is important an highly recomended to configure gateway TLS encryption, as failing to do so will cause errors in any API call requiring GTW-URL.
+```bash
+docker run -d \
+-p 8000:8000 \
+-p 8200:8200 \
+-p 18888:18888 \
+-p 8080:8080 \
+-p 8081:8081 \
+-p 5696:5696 \
+-v ./customer_fragments.json:/home/akeyless/.akeyless/customer_fragments.json \
+-e ADMIN_ACCESS_ID="p-xxxxxx" \
+-e ADMIN_ACCESS_KEY="62Hu...xxx....qlg=" \
+-e ALLOWED_ACCESS_PERMISSIONS='[{"name":"Administrators","access_id":"p-94lrdxzjhg1fem","permissions":["admin"]}]' \
+-e ENABLE_TLS="true" -e ENABLE_TLS_CONFIGURE="true" -e ENABLE_TLS_CURL="true" -e ENABLE_TLS_HVP="true" \
+-e MIN_TLS_VERSION="TLSv1.2" \
+-v $PWD/cert.crt:/home/akeyless/.akeyless/akeyless-api-cert.crt \
+-v $PWD/key.pem:/home/akeyless/.akeyless/akeyless-api-cert.key  \
+-e CLUSTER_NAME="Local-docker-gw" \
+--name akeyless-dock-gw \
+akeyless/base:latest-akeyless
+```
 - the ZK:DFC is now created 
 
 > <img src="https://github.com/brokedba/Akeyless_demo/assets/29458929/7a9ca7c5-b3cf-40c8-9877-1c06faf935c5" width="250" height="50" />
