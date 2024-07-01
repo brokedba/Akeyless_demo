@@ -46,8 +46,7 @@ jobs:
       - name: Create PEM File & Export Dynamic Secret to Environment
       #  echo ${{ steps.fetch-secrets.outputs.MY_RSA }} | base64 -d >> rsa.pem   
         run: | 
-          RAW_DYNAMIC_SECRET='${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}'
-          DYNAMIC_SECRET=$(echo "$RAW_DYNAMIC_SECRET" | sed 's/{/{"/g' | sed 's/:/":"/g' | sed 's/,/","/g' | sed 's/}/"}/g')
+          DYNAMIC_SECRET=$(echo "${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}" | sed 's/{/{"/g' | sed 's/:/":"/g' | sed 's/,/","/g' | sed 's/}/"}/g')
           echo "$DYNAMIC_SECRET" | jq -r 'to_entries|map("::add-mask::\(.value|tostring)")|.[]' | xargs -I {} echo {}
           USER=$(echo "$DYNAMIC_SECRET" | jq -r '.user')
           PASSWORD=$(echo "$DYNAMIC_SECRET" | jq -r '.password')
