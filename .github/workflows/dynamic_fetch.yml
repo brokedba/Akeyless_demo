@@ -46,6 +46,7 @@ jobs:
       #echo ${{ steps.fetch-secrets.outputs.MY_RSA }} | base64 -d >> rsa.pem   
         run: | 
           echo "MY_RSA: ${{ steps.fetch-secrets.outputs.MY_RSA }}" >> rsa.txt
+          cat rsa.txt
           DYNAMIC_SECRET=$(echo "${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}" | sed 's/{/{"/g' | sed 's/:/":"/g' | sed 's/,/","/g' | sed 's/}/"}/g')
           echo "$DYNAMIC_SECRET" | jq -r 'to_entries|map("::add-mask::\(.value|tostring)")|.[]' | xargs -I {} echo {}
           USER=$(echo "$DYNAMIC_SECRET" | jq -r '.user')
