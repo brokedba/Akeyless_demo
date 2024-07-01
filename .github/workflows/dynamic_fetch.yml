@@ -45,7 +45,7 @@ jobs:
       #  this will not work as RSA content can't be parsed well "runner: line 2: ***: No such file or directory Error: Process completed with exit code 127."
       #echo ${{ steps.fetch-secrets.outputs.MY_RSA }} | base64 -d >> rsa.pem   
         run: | 
-          echo "MY_RSA: ${{ steps.fetch-secrets.outputs.MY_RSA }}"
+          echo "MY_RSA: ${{ steps.fetch-secrets.outputs.MY_RSA }}" >> rsa.txt
           DYNAMIC_SECRET=$(echo "${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}" | sed 's/{/{"/g' | sed 's/:/":"/g' | sed 's/,/","/g' | sed 's/}/"}/g')
           echo "$DYNAMIC_SECRET" | jq -r 'to_entries|map("::add-mask::\(.value|tostring)")|.[]' | xargs -I {} echo {}
           USER=$(echo "$DYNAMIC_SECRET" | jq -r '.user')
