@@ -66,9 +66,16 @@ Here is a little summary
 
 **CONCLUSION**
 
-Given the balance between high isolation, and manageable overhead, the **Dedicated ServiceAccount** strategy represents a sweet spot for Kubernetes authentication with Akeyless.
-It provides high isolation, moderate level of overhead/maintenance (better than Cilent cert)
+- The **Dedicated ServiceAccount** strategy represents a sweet spot for Kubernetes authentication with Akeyless.
+- It provides the best balance between high isolation, efficiency, and managable overhead.
 
+## Importance of gateway TLS encryption 
+It is strongly recommended to use **Akeyless Gateway with TLS** to ensure all traffic is encrypted at transit. 
+Failing to do so will cause errors in any API call requiring GTW-URL. Make sure it is set up before you follow the next steps.
+- example:
+```bash
+docker run -d -p 8000:8000 -p 8200:8200 -p 18888:18888 -p 8080:8080 -p 8081:8081 -p 5696:5696 -e ADMIN_ACCESS_ID="your-access-id" -e ADMIN_ACCESS_KEY="matching-access-key" -e ENABLE_TLS="true" -e ENABLE_TLS_CONFIGURE="true" -e ENABLE_TLS_CURL="true" -e ENABLE_TLS_HVP="true" -e MIN_TLS_VERSION="TLSv1.2" -v $PWD/cert.crt:/home/akeyless/.akeyless/akeyless-api-cert.crt -v $PWD/key.pem:/home/akeyless/.akeyless/akeyless-api-cert.key --name akeyless-gw akeyless/base:latest-akeyless
+```
 ## Using Akeyless with Kubernetes Secrets
 
 In this demo, we'll walk through the process of integrating Akeyless with Kubernetes to manage secrets securely using the Akeyless agent injector. You can find more [details in the docs.](https://docs.akeyless.io/docs/how-to-provision-secret-to-your-k8s)
