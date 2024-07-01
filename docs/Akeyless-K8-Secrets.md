@@ -1,78 +1,28 @@
 # Overview
 Kubernetes Secrets with Akeyless
+# K8 Authentication method (K8s configuration)
+![image](https://github.com/brokedba/Akeyless_demo/assets/29458929/bf9dfb30-ab69-443b-b543-dbd1616a0a9e)
 
-## Creating and Managing Kubernetes Secrets
 
-### Creating Secrets Using kubectl
-
-To create a Secret using `kubectl`, you can use the following command:
-
-```bash
-kubectl create secret generic my-secret --from-literal=username=admin --from-literal=password='s3cr3t'
-```
-
-You can verify the Secret was created successfully with:
-
-```bash
-kubectl get secret my-secret
-```
-
-### Using a Manifest File and Generators Like Kustomize
-
-You can also create Secrets using a YAML file:
-
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: my-secret
-type: Opaque
-data:
-  username: YWRtaW4=  # base64 encoded value of 'admin'
-  password: czNjcjN0  # base64 encoded value of 's3cr3t'
-```
-
-Apply the Secret using `kubectl`:
-
-```bash
-kubectl apply -f my-secret.yaml
-```
-
-With Kustomize, you can generate Secrets dynamically with a `kustomization.yaml` file:
-
-```yaml
-secretGenerator:
-- name: my-secret
-  literals:
-  - username=admin
-  - password=s3cr3t
-```
-
-Run the following command to apply the Kustomize configuration:
-
-```bash
-kubectl apply -k .
-```
 ## The Security Limitations of Kubernetes Secrets
-
 ### The Misconception of "Secrets": Base64 Encoding Explained
 
-Base64 encoding is often misunderstood as a form of encryption. In reality, it's just a reversible encoding method. Anyone with access to the encoded data can easily decode it. For instance:
+Base64 encoding is not **Encryption**! It's just a reversible encoding method. Anyone with access to the encoded data can easily decode it.
 
+For instance:
 ```bash
 echo 'YWRtaW4=' | base64 --decode  # Outputs 'admin'
 ```
 
-We can easily get the secret from the database, in our case we're using a k3s cluster with SQLite
+**Creating Secrets Using kubectl**
+- Using `kubectl create`command:
 
 ```bash
-sqlite3 /var/lib/rancher/k3s/server/db/state.db
+kubectl create secret generic my-secret --from-literal=username=admin --from-literal=password='s3cr3t'
 ```
-
-Then run the following SQL command:
-
-```sql
-SELECT name, hex(value) FROM kine WHERE name LIKE '%secrets%opaque-secret%';
+- You can verify the Secret was created successfully with:
+```bash
+kubectl get secret my-secret | base64 -d # Outputs 's3cr3t'
 ```
 
 ## Using Akeyless with Kubernetes Secrets
