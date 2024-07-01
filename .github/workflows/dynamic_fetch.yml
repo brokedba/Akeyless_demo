@@ -35,17 +35,17 @@ jobs:
           dynamic-secrets: |
             - name: "/MyVault/DBs/MySQLDynamicSecret"
               output-name: "MYSQL_DYNAMIC_SECRET"      
-         # static-secrets: '{"/MyVault/DBs/OCI_RSA":"MY_RSA"}'   
+         # below declaration will fail as the target fomat is YAML not JSON      
+         # static-secrets: '{"/MyVault/DBs/OCI_RSA":"MY_RSA"}'    
          # dynamic-secrets:'{"/MyVault/DBs/MySQLDynamicSecret":"MYSQL_DYNAMIC_SECRET"}'
-      
-#      - name: Debug Fetched Secrets
-#        run: |
-#          echo "MY_RSA: ${{ steps.fetch-secrets.outputs.MY_RSA }}"
-#          echo "MYSQL_DYNAMIC_SECRET: ${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}"
+# Below extraction based on Jeremy's example doesn't provide total protection from secret theft from the logs.       
 # echo '${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}' | jq -r 'to_entries|map("JWT_\(.key)=\(.value|tostring)")|.[]' >> $GITHUB_ENV               
+
       - name: Create PEM File & Export Dynamic Secret to Environment
-      #  echo ${{ steps.fetch-secrets.outputs.MY_RSA }} | base64 -d >> rsa.pem   
+      #  this will not work as RSA content can't be parsed well "runner: line 2: ***: No such file or directory Error: Process completed with exit code 127."
+      #echo ${{ steps.fetch-secrets.outputs.MY_RSA }} | base64 -d >> rsa.pem   
         run: | 
+          echo "MY_RSA: ${{ steps.fetch-secrets.outputs.MY_RSA }}"
           DYNAMIC_SECRET=$(echo "${{ steps.fetch-secrets.outputs.MYSQL_DYNAMIC_SECRET }}" | sed 's/{/{"/g' | sed 's/:/":"/g' | sed 's/,/","/g' | sed 's/}/"}/g')
           echo "$DYNAMIC_SECRET" | jq -r 'to_entries|map("::add-mask::\(.value|tostring)")|.[]' | xargs -I {} echo {}
           USER=$(echo "$DYNAMIC_SECRET" | jq -r '.user')
@@ -55,13 +55,6 @@ jobs:
           echo "::add-mask::${{ vars.MYSQL_IP }}" 
           echo "USER=$USER" >> $GITHUB_ENV
           echo "PASSWORD=$PASSWORD" >> $GITHUB_ENV
-
-      # Mask the secrets to ensure they are not printed in logs
- #     - name: Mask Secrets
- #       run: |
- #         echo "::add-mask::${{ env.JWT_id }}"
- #         echo "::add-mask::${{ env.JWT_password }}" 
- #         echo "::add-mask::${{ vars.MYSQL_IP }}"  
       
 
       # Run MySQL Commands Remotely
