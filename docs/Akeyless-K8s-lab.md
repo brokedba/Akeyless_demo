@@ -16,6 +16,59 @@ kubectl get secret my-secret -o jsonpath="{.data.password}" | base64 -d && echo
 ```
 # K8 Authentication method (K8s configuration)
 ![image](https://github.com/brokedba/Akeyless_demo/assets/29458929/bf9dfb30-ab69-443b-b543-dbd1616a0a9e)
+
+**AUTH METHODS**
+- Akeyless supports multiple options to authenticate your K8s cluster with Akeyless platform:
+1. [Native Kubernetes (K8s) Auth](https://docs.akeyless.io/docs/kubernetes-auth)
+2. Other options Include
+   - [Universal Identity](https://docs.akeyless.io/docs/auth-meth-k8s#:~:text=Kubernetes%20(K8s)%20Auth-,Universal%20Identity%20(UID),-Note%3A%20Not%20supported) (UID)
+   - [API Key](https://docs.akeyless.io/docs/api-key)
+   - Cloud Identity: [Azure AD](https://docs.akeyless.io/docs/azure-ad) | [AWS IAM](https://docs.akeyless.io/docs/aws-iam) | [GCP Auth](https://docs.akeyless.io/docs/gcp-auth-method). 
+
+# Native Kubernetes (K8s) Authentication
+
+Akeyless offers various strategies for Native Kubernetes authentication to securely manage access to secrets. Each strategy uses Kubernetes JWTs for authentication and has its own purposes, pros, and cons. 
+Here is a little summary
+<table>
+  <thead style="background-color: #f2f2f2;">
+    <tr>
+      <th>Strategy</th>
+      <th>Purpose</th>
+      <th>Pros</th>
+      <th>Cons</th>
+      <th>Use Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>Akeyless Gateway ServiceAccount<b></td>
+      <td>Use the Akeyless Gateway ServiceAccount for authentication</td>
+      <td>Simplicity, Centralized Management</td>
+      <td>Single Point of Failure, Limited Flexibility</td>
+      <td>Prioritize simplicity and centralized management</td>
+    </tr>
+    <tr>
+      <td><b>Dedicated ServiceAccount<b></td>
+      <td>Use a dedicated ServiceAccount for specific applications/namespaces</td>
+      <td>Fine-Grained Access Control, Isolation</td>
+      <td>Management Overhead, Complexity</td>
+      <td>Require strict access controls and isolation</td>
+    </tr>
+    <tr>
+      <td><b>Client Certificate<b></td>
+      <td>Use client certificates for authentication</td>
+      <td>Security (mTLS), Non-Repudiation</td>
+      <td>Complex Setup, Maintenance</td>
+      <td>Require enhanced security through mTLS and can manage certificates efficiently</td>
+    </tr>
+  </tbody>
+</table>
+
+**CONCLUSION**
+
+Given the balance between high isolation, and manageable overhead, the **Dedicated ServiceAccount** strategy represents a sweet spot for Kubernetes authentication with Akeyless.
+It provides high isolation, moderate level of overhead/maintenance (better than Cilent cert)
+
 ## Using Akeyless with Kubernetes Secrets
 
 In this demo, we'll walk through the process of integrating Akeyless with Kubernetes to manage secrets securely using the Akeyless agent injector. You can find more [details in the docs.](https://docs.akeyless.io/docs/how-to-provision-secret-to-your-k8s)
