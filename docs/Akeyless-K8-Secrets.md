@@ -1,30 +1,21 @@
 # Overview
 Kubernetes Secrets with Akeyless
+## The Security Limitations of Kubernetes Secrets
+### K8 secrets Misconception: Base64 vs Encryption
+
+Base64 encoding is not **Encryption**! It's just a reversible encoding method. Anyone with access to the encoded data can decode it.
+
+For example:
+```bash
+kubectl create secret generic my-secret --from-literal=password='s3cr3t'
+```
+- You can easily decode the Secret as follows:
+```bash
+kubectl get secret my-secret -o jsonpath="{.data.password}" | base64 -d && echo
+# Outputs 's3cr3t'
+```
 # K8 Authentication method (K8s configuration)
 ![image](https://github.com/brokedba/Akeyless_demo/assets/29458929/bf9dfb30-ab69-443b-b543-dbd1616a0a9e)
-
-
-## The Security Limitations of Kubernetes Secrets
-### The Misconception of "Secrets": Base64 Encoding Explained
-
-Base64 encoding is not **Encryption**! It's just a reversible encoding method. Anyone with access to the encoded data can easily decode it.
-
-For instance:
-```bash
-echo 'YWRtaW4=' | base64 --decode  # Outputs 'admin'
-```
-
-**Creating Secrets Using kubectl**
-- Using `kubectl create`command:
-
-```bash
-kubectl create secret generic my-secret --from-literal=username=admin --from-literal=password='s3cr3t'
-```
-- You can verify the Secret was created successfully with:
-```bash
-kubectl get secret my-secret | base64 -d # Outputs 's3cr3t'
-```
-
 ## Using Akeyless with Kubernetes Secrets
 
 In this demo, we'll walk through the process of integrating Akeyless with Kubernetes to manage secrets securely using the Akeyless agent injector. You can find more [details in the docs.](https://docs.akeyless.io/docs/how-to-provision-secret-to-your-k8s)
