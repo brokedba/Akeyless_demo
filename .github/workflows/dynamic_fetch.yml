@@ -52,6 +52,7 @@ jobs:
           PASSWORD=$(echo "$DYNAMIC_SECRET" | jq -r '.password')
           echo "::add-mask::$USER"
           echo "::add-mask::$PASSWORD"
+          echo "::add-mask::${{ vars.MYSQL_IP }}" 
           echo "USER=$USER" >> $GITHUB_ENV
           echo "PASSWORD=$PASSWORD" >> $GITHUB_ENV
 
