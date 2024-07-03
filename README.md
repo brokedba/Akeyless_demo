@@ -1,9 +1,6 @@
 # Akeyless_demo
 In AkeyLess Each identity is represented by an Authentication Method object:
 
-The Workflow relies on **3 main components** 
-- **AuthN** Method  + **AuthZ** (Acess Role) + **Token/Secret access** (Secret ITEM) 
-![image](https://github.com/brokedba/Akeyless_demo/assets/29458929/adb547e9-ca0f-4a64-bd04-c28f0c48ca4c)
 # Types of Identity 
 - **Humans**
   - Anything manually entered/authenticated by a human ( i.e username |password)
@@ -30,6 +27,9 @@ The Workflow relies on **3 main components**
 
 > **Note:** see how clients are counted [here](https://www.akeyless.io/akeyless-clients/)
 # Access Role RBAC
+![image](https://github.com/brokedba/Akeyless_demo/assets/29458929/adb547e9-ca0f-4a64-bd04-c28f0c48ca4c)
+The Workflow relies on **3 main components** 
+- **AuthN** Method  + **AuthZ** (Acess Role) + **Token/Secret access** (Secret ITEM) 
 <img src="https://files.readme.io/54c7a41-RBAC.JPG" width="400" height="300" />
 Access Roles Allow to grant permissions on Secrets & Encryption Keys, Targets, Authentication methods and Access Roles, as long as audit logs, analytics access, Gateways settings and Secure Remote Access (SRA) information.
 
