@@ -164,7 +164,7 @@ Now check the logs of the pod:
 Output:
 ```
 Defaulted container "alpine" out of: alpine, akeyless-init (init)
-myPassword
+Kube_secret_one
 ...going to sleep...
 ```
 
