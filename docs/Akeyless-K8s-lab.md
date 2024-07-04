@@ -117,12 +117,7 @@ There are two modes to retrieve secrets with Akeyless in K8s. Environment variab
 
 ### Step 2: Retrieve Secrets into Environment Variables
 
-Let's now retrieve a secret from Akeyless into an environment variable. Run the following command:
-
-```bash
-kubectl apply -f app_env.yaml
-```
-
+Let's now retrieve a secret from Akeyless into an environment variable. 
 Notice the content of this file:
 
 ```yaml
@@ -158,6 +153,12 @@ Notice the following annotation:
 
 - akeyless/enabled: "true": An annotation that enables the K8s Injector plugin.
 
+- Run the following command:
+
+```bash
+kubectl apply -f app_env.yaml
+```
+
 Now check the logs of the pod:
 
 Output:
@@ -171,11 +172,7 @@ It successfully retrieved the password in Akeyless: `myPassword`
 
 ### Step 3: Retrieve Secrets into a File
 
-Let's now retrieve a secret from Akeyless into a file. Run the following command:
-
-```bash
-kubectl apply -f app_file.yaml
-```
+Let's now retrieve a secret from Akeyless into a file. 
 
 Here are the contents of the `app_file.yaml`:
 
@@ -211,6 +208,11 @@ Notice the following annotations:
 - akeyless/enabled: "true": An annotation that enables the K8s Injector plugin
 - akeyless/inject_file: "/K8s/my_k8s_secret": An annotation specifying the path to get the secret from in Akeyless. The default location of the Akeyless secrets folder inside your pod file system is `/akeyless/secrets/`. To explicitly set a different location you can override this by adding `|location=<path>` after your secret name within the annotation as we will see in the next example.
 
+Run the following command:
+
+```bash
+kubectl apply -f app_file.yaml
+```
 Check the logs of this pod:
 
 Output:
@@ -233,12 +235,7 @@ This is great if our application is intended to retrieve the secret once from Ak
 
 ### Step 4: Retrieve Secrets into a File Continously with a Sidecar
 
-Let's now retrieve a secret from Akeyless into a file continously with a sidecar. Run the following command:
-
-```bash
-kubectl apply -f app_file_sidecar.yaml
-```
-
+Let's now retrieve a secret from Akeyless into a file continously with a sidecar. 
 and here are the contents of the `app_file_sidecar.yaml`:
 
 ```yaml
@@ -278,6 +275,13 @@ Notice the following annotations:
 - akeyless/side_car_enabled: "true" -> This is what enables the sidecar container.
 - akeyless/side_car_refresh_interval: "5s" -> This specifies the interval at which the sidecar will check for new versions of the secret.
 - akeyless/side_car_versions_to_retrieve: "2" -> This specifies the number of versions of the secret to retrieve.
+
+
+Run the following command:
+
+```bash
+kubectl apply -f app_file_sidecar.yaml
+```
 
 If you run `kubectl get po`, you will see that we have now two containers running for our pod:
 
