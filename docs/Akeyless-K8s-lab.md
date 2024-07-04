@@ -313,7 +313,7 @@ Output:
 ```json
 {
   "version": 1,
-  "secret_value": "myPassword",
+  "secret_value": "Kube_secret_one",
   "creation_date": 1719068280
 }
 ```
@@ -325,20 +325,20 @@ and notice the logs will automatically change to reflect the new secret:
 [
  {
   "version": 2,
-  "secret_value": "myPassword2",
-  "creation_date": 1719071019
+  "secret_value":"Kube_secret_sucks",
+  "creation_date": 1719647340
  },
  {
   "version": 1,
-  "secret_value": "myPassword",
-  "creation_date": 1719068280
+  "secret_value": "Kube_secret_one",
+  "creation_date": 1719647340
  }
 ]
 ```
 Finally, we can exec into the alpine container to see the file where all the secrets live:
 
 ```bash
-kubectl exec -it pod/test-file-sidecar-759667cccc-6h8xv -c alpine -- sh
+kubectl exec -it pod/test-file-sidecar-8455cfbfc7-8q4qv -c alpine -- sh
 cat /secrets/secretsVersion.json 
 ```
 
@@ -348,13 +348,13 @@ Output:
 [
  {
   "version": 2,
-  "secret_value": "myPassword2",
-  "creation_date": 1719071019
+  "secret_value":"Kube_secret_sucks",
+  "creation_date": 1719647340
  },
  {
   "version": 1,
-  "secret_value": "myPassword",
-  "creation_date": 1719068280
+  "secret_value": "Kube_secret_one",
+  "creation_date": 1719647340
  }
 ]
 ```
