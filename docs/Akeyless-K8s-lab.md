@@ -101,10 +101,10 @@ Notice the `values.yaml` file contains the following environment variables:
 ```yaml
 env:
   AKEYLESS_URL: "https://vault.akeyless.io"
-  AKEYLESS_ACCESS_ID: "p-ukwx42wczc5skm" 
-  AKEYLESS_ACCESS_TYPE: "k8s"
-  AKEYLESS_API_GW_URL: "https://b46b-24-150-170-114.ngrok-free.app"
-  AKEYLESS_K8S_AUTH_CONF_NAME: "my-k8s-auth-method"
+  AKEYLESS_ACCESS_ID: "p-vxr2jkzg2tjgkm"
+  AKEYLESS_ACCESS_TYPE: "k8s"  # azure_ad/aws_iam/api_key/k8s
+  AKEYLESS_API_GW_URL: "https://vulture-alert-asp.ngrok-free.app"
+  AKEYLESS_K8S_AUTH_CONF_NAME: "k8s-auth-oci"
 ```
 
 - `AKEYLESS_ACCESS_ID` is the Access ID of the Auth Method with access to the secret.
