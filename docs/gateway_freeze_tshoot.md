@@ -39,3 +39,7 @@ var_cpus           = 4 #2
 
 # test login to the Gateway 
 
+
+https://github.com/brokedba/Akeyless_demo/assets/29458929/59f8c5d6-f276-46de-8a99-52702b2db12f
+
+
