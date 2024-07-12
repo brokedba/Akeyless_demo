@@ -9,8 +9,8 @@
 
 
 # Fix 
-Increase the max processor state back to 100%
-Optional : add a little bit of juice to the VM with 8G /4 vcpu 
+- Increase the max processor state back to 100%
+- Optional : add a little bit of juice to the VM with 8G /4 vcpu 
 ```yaml
 # Variables
 var_box            = 'bento/oracle-7'
